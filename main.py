@@ -13,13 +13,13 @@ def read_cooc_book(filename: str):
     cooc_book = {}
     with open(filename, 'r') as fout:
         while True:
-            name = fout.readline()
+            name = fout.readline().strip('\n')
             if name == '':
                 break
             count = int(fout.readline())
             cooc_book[name] = []
             for _ in range(count):
-                ingr = fout.readline()
+                ingr = fout.readline().strip('\n')
                 cooc_book[name].append(read_ingridient(ingr))
             fout.readline()
     return cooc_book
