@@ -1,4 +1,4 @@
-
+from pathlib import Path
 
 def read_ingridient(item: str):
     items = item.split(' | ')
@@ -43,10 +43,27 @@ def get_shop_list_by_dishes(cooc_book, dishes, person_count):
     return count_food
 
 
+def sorted_file(filenames: list[Path], output_filename: Path):
+    data = {}
+    for filename in filenames:
+        with open(filename, 'r') as fout:
+            data[filename] = fout.readlines()
+    data = sorted(data.items(), key=lambda item: len(item[1]))
+    with open(output_filename, 'w') as fin:
+        for name, lines in data:
+            fin.write(f'{name}\n')
+            fin.write(f'{len(lines)}\n')
+            fin.writelines(lines)
+            fin.write('\n')
+
+
 if __name__ == '__main__':
     cooc_book = read_cooc_book('recipes.txt')
     print(cooc_book)
 
     print(get_shop_list_by_dishes(cooc_book, ['Омлет', 'Омлет', 'Запеченный картофель'], 3))
+    directory = Path('sorted')
+    sorted_file([directory / '1.txt', directory / '2.txt', directory / '3.txt'], 'sorted.txt')
+
 
 
